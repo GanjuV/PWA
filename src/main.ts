@@ -12,11 +12,17 @@ if (environment.production) {
 //   .catch(err => console.log(err));
 
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .then(() => { 
-    if (environment.production && 'serviceWorker' in navigator) { 
-      navigator.serviceWorker.getRegistration()
-        .then(active => !active && navigator.serviceWorker.register('/ngsw-worker.js'))
-        .catch(console.error); 
-    } 
-});
+// platformBrowserDynamic().bootstrapModule(AppModule)
+//   .then(() => { 
+//     if (environment.production && 'serviceWorker' in navigator) { 
+//       navigator.serviceWorker.getRegistration()
+//         .then(active => !active && navigator.serviceWorker.register('/ngsw-worker.js'))
+//         .catch(console.error); 
+//     } 
+// });
+
+platformBrowserDynamic().bootstrapModule(AppModule).then(() => {
+  if ('serviceWorker' in navigator && environment.production) {
+    navigator.serviceWorker.register('ngsw-worker.js');
+  }
+}).catch(err => console.log(err));
